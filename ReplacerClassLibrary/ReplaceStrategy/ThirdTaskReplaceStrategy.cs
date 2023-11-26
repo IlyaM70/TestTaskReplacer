@@ -1,4 +1,6 @@
-﻿namespace ReplacerClassLibrary.ReplacerStrategy
+﻿using ReplacerClassLibrary.ReplaceString;
+
+namespace ReplacerClassLibrary.ReplacerStrategy
 {
     public sealed class ThirdTaskReplaceStrategy : IReplaceStrategy
     {
@@ -9,18 +11,22 @@
             {
                 string result = "";
 
+                var replaceStringBuilder = new ReplaceStringBuilder();        
+
                 if (numbers[i] % 3 == 0 && numbers[i] % 5 == 0)
                 {
-                    result = ReplacerHelper.GetString("good-boy",true,result);
+                    replaceStringBuilder.AddByCondition("good-boy", true);
                 }
                 else
                 {
-                    result = ReplacerHelper.GetString("dog",numbers[i] % 3 == 0,result);
-                    result = ReplacerHelper.GetString("cat",numbers[i] % 5 == 0,result);
+                    replaceStringBuilder.AddByCondition("dog",numbers[i] % 3 == 0);
+                    replaceStringBuilder.AddByCondition("cat",numbers[i] % 5 == 0);
                 }
 
-                result = ReplacerHelper.GetString("muzz",numbers[i] % 4 == 0,result);
-                result = ReplacerHelper.GetString("guzz",numbers[i] % 7 == 0,result);
+                replaceStringBuilder.AddByCondition("muzz",numbers[i] % 4 == 0);
+                replaceStringBuilder.AddByCondition("guzz",numbers[i] % 7 == 0);
+
+                result = replaceStringBuilder.Build();
 
                 if (string.IsNullOrEmpty(result))
                 {
